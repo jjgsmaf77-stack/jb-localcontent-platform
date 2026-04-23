@@ -1,0 +1,78 @@
+# =============================================================
+# JB 로컬콘텐츠 창업가 양성 플랫폼 · Netlify 배포 설정
+# 호원대학교 RISE사업 · 지산학 K컬처&아트테크 창업가 양성
+# =============================================================
+
+[build]
+  # 정적 사이트 — 빌드 명령 불필요
+  command = "echo 'Static site — no build step required'"
+  publish = "."
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# ---------- 보안 헤더 ----------
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+
+# ---------- HTML 캐시 (1시간) ----------
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, must-revalidate"
+
+# ---------- CSS / JS 캐시 (1일) ----------
+[[headers]]
+  for = "/assets/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+    Content-Type = "text/css; charset=utf-8"
+
+[[headers]]
+  for = "/assets/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+    Content-Type = "application/javascript; charset=utf-8"
+
+# ---------- 이미지 캐시 (7일) ----------
+[[headers]]
+  for = "/assets/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/*.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+# ---------- 폰트 캐시 (1년 immutable) ----------
+[[headers]]
+  for = "/*.woff2"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# ---------- 404 폴백 ----------
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 404
+
+# ---------- 배포 컨텍스트 ----------
+[context.production]
+  environment = { SITE_URL = "https://jblocal.co.kr" }

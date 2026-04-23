@@ -51,27 +51,17 @@ gh repo create jb-localcontent-platform --public --source=. --remote=origin --pu
 
 ### [3단계] 커스텀 도메인 — `jblocal.co.kr` (가비아 구매 완료)
 
-### [4단계] DNS 연결 (가비아 My가비아 → 도메인 → DNS 관리)
+### [4단계] DNS 연결 (가비아 My가비아 → 도메인 → `jblocal.co.kr` → DNS 관리)
 
-**Netlify 사용 시**
 ```
-호스트      타입      값                                       TTL
-@           A         75.2.60.5                                 3600
-www         CNAME     jb-localcontent-platform.netlify.app.     3600
-```
-
-**Vercel 사용 시**
-```
-호스트      타입      값                                       TTL
-@           A         76.76.21.21                               3600
-www         CNAME     cname.vercel-dns.com.                     3600
+호스트      타입      값                         TTL
+@           A         76.76.21.21                3600
+www         CNAME     cname.vercel-dns.com.      3600
 ```
 
-**양쪽 동시 배포 시**: `jblocal.co.kr` (apex) → Vercel, `www.jblocal.co.kr` → Netlify
-(또는 하나를 메인으로 지정하고 나머지를 301 리다이렉트)
-
-그다음 Netlify/Vercel 대시보드 → **Domains → Add custom domain**
-→ `jblocal.co.kr` · `www.jblocal.co.kr` 입력 → 각 플랫폼이 안내하는 정확한 레코드로 가비아에 등록.
+그다음 Vercel 대시보드 → **Settings → Domains → Add**
+→ `jblocal.co.kr` · `www.jblocal.co.kr` 둘 다 추가
+→ Vercel 이 `www` 를 apex 로 301 리다이렉트 (또는 반대) 자동 처리.
 
 ### [5단계] DNS 전파 + SSL 자동 발급
 
